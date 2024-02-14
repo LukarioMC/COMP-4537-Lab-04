@@ -12,22 +12,28 @@ function retrieveDefinition(req, res) {
     // TODO Retrieval
 }
 
-exports.respondHTML = (res, statusCode, data) => {
+function respondHTML(res, statusCode, data) {
     res.writeHead(statusCode, { 'content-type': 'text/html' });
     closeWithData(res, data);
-};
+}
 
-exports.respondJSON = (res, statusCode, data) => {
+function respondJSON(res, statusCode, data) {
     res.writeHead(statusCode, { 'content-type': 'text/json' });
     closeWithData(res, data);
-};
+}
 
 function closeWithData(res, data) {
     res.write(data);
     res.end();
 }
 
-exports.logRequest = (req) => {
+function logRequest(req) {
     console.log('The server received a request!');
     console.log('Request details: ' + req.url);
+}
+
+module.exports = {
+    respondHTML,
+    respondJSON,
+    logRequest,
 };
