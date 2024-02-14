@@ -9,11 +9,12 @@ const dict = require('./lang/en/en');
 const PORT = process.env.PORT || 8000;
 
 const routes = {
-    '/api/definitions': utils.handleDefiniton,
+    '/api/definitions': utils.handleDefinition,
+    '/api/definitions/': utils.handleDefinition,
 };
 
 function handleRequest(req, res) {
-    const reject = () => respondHTML(res, 400, 'Invalid request');
+    const reject = () => utils.respondHTML(res, 400, 'Invalid request');
     if (!req || !req.url) reject();
     const parsedAddress = url.parse(req.url, true);
     const handler = routes[parsedAddress.pathname] || reject;
