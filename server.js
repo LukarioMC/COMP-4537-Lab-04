@@ -1,11 +1,10 @@
 /**
- * A simple API server that can handle a GET request to greet the user
- * and return the current server time.
+ * A simple API server that can handle a GET request to retrieve a definition &
+ * a POST request to store a definition.
  */
 const http = require('http');
 const url = require('url');
 const utils = require('./modules/utils');
-const dict = require('./lang/en/en');
 const PORT = process.env.PORT || 8000;
 
 const routes = {
