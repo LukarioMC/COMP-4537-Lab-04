@@ -1,16 +1,10 @@
+const { storeDefinition, retrieveDefinition } = require('definitions.js');
+
 exports.handleDefinition = (req, res) => {
     const method = res.method;
     if (method === 'GET') retrieveDefinition(req, res);
-    else if (method === 'GET') storeDefinition(req, res);
+    else if (method === 'POST') storeDefinition(req, res);
 };
-
-function storeDefinition(req, res) {
-    // TODO Storage
-}
-
-function retrieveDefinition(req, res) {
-    // TODO Retrieval
-}
 
 function respondHTML(res, statusCode, data) {
     res.writeHead(statusCode, { 'content-type': 'text/html' });
