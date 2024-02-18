@@ -1,3 +1,8 @@
+// Controls which resources can access the API
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+};
+
 /**
  * Responds to a request with HTML data. No parsing of the data is done.
  * @param {http.ServerResponse} res
@@ -5,7 +10,7 @@
  * @param {object} data Raw HTML code
  */
 function respondHTML(res, statusCode, data) {
-    res.writeHead(statusCode, { 'content-type': 'text/html' });
+    res.writeHead(statusCode, { ...CORS_HEADERS, 'content-type': 'text/html' });
     closeWithData(res, data);
 }
 
@@ -16,7 +21,7 @@ function respondHTML(res, statusCode, data) {
  * @param {object} data JSON object to stringify
  */
 function respondJSON(res, statusCode, data) {
-    res.writeHead(statusCode, { 'content-type': 'text/json' });
+    res.writeHead(statusCode, { ...CORS_HEADERS, 'content-type': 'text/json' });
     closeWithData(res, JSON.stringify(data));
 }
 
