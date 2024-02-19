@@ -15,6 +15,32 @@ const routes = {
 };
 
 /**
+ * CORS Function copied directly from https://vercel.com/guides/how-to-enable-cors
+ * used as middleware...
+ * @param {*} fn
+ * @returns
+ */
+const allowCors = (fn) => async (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // another common pattern
+    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET,OPTIONS,PATCH,DELETE,POST,PUT'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    return await fn(req, res);
+};
+
+/**
  * Handles an incoming HTTP request. Delegates handling to routing map.
  * Rejects invalid requests with 404 status code.
  * @param {http.IncomingMessage} req
@@ -25,7 +51,7 @@ function handleRequest(req, res) {
         respondJSON(res, 404, { status: 404, error: 'Invalid request' });
     if (!req || !req.url) reject();
     const parsedAddress = url.parse(req.url, true);
-    const handler = routes[parsedAddress.pathname] || reject;
+    const handler = allowCors(routes[parsedAddress.pathname]) || reject;
     if (handler) handler(req, res);
 }
 
